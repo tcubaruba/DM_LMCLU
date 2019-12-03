@@ -21,11 +21,11 @@ def find_separation(D, K, S):
     n = int(n)
 
     for i in range(0, n):
-        M = find_random_point(D, K+1)
-        O = find_random_point(M, 1)
-        O = np.squeeze(O)
-        print(O)
-        B, _ = form_basis.form_orthonormal_basis(M, O)
+        M_indexes = find_random_point(D, K+1)
+        M = D[M_indexes, :]
+        O_index = np.random.choice(M_indexes, 1)
+        O = D[O_index, :]
+        B = form_basis.form_orthonormal_basis(M, O_index)
         # B = np.array(B)
         # print(B)
         # print(B.shape)
@@ -50,5 +50,5 @@ def find_separation(D, K, S):
 
 def find_random_point(dataset, n_points):
     rows = np.random.choice(dataset.shape[0], n_points, replace=False)
-    points_array = dataset[rows, :]
-    return points_array
+    # points_array = dataset[rows, :]
+    return rows
