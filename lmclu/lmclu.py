@@ -1,10 +1,50 @@
+import numpy as np
+import pandas as pd
+
 from find_separation.find_separation import find_separation
 
 
-def lmclu(dataset, max_lm_dim, sampling_level, sensitivity_threshold):
+def norm(val):
+    return np.linalg.norm(val)
 
-    #blabla
-    #for loop:
-    find_separation()
-    return
 
+def is_in_neighborhood(df, x_index, proximity_threshold, man_origin, man_basis):
+    x = df.iloc[x_index].values
+    is_in = norm(x - man_origin) ** 2 - norm(man_basis.T(x - man_origin)) ** 2 < proximity_threshold
+    return is_in
+
+
+def get_neighborhood(df, proximity_threshold, man_origin, man_basis):
+    df_copy = df.copy()
+    for row_index, row in df.iterrows():
+        if not is_in_neighborhood(df, proximity_threshold, man_origin, man_basis):
+            df_copy = df_copy.drop(row_index)
+    return df_copy
+
+
+def lmclu(D: pd.Dataframe, K: int, S: int, Gamma: float) -> (list, list):
+    """
+    :param D: dataset
+    :param K: max LM dim
+    :param S: sampling level
+    :param Gamma: sensitivity threshold
+    :return: clusters, dims
+    """
+    clusters = []  # list of labeled cluster
+    dims = []  # list of intrinsic dimensionalities
+
+    while len(D):
+        dataset_copy = D
+        lm_dim = 1
+        for k in range(K):
+            while True:
+                goodness_threshold, proximity_threshold, man_origin, man_basis = find_separation(dataset_copy, k + 1, S)
+                if goodness_threshold <= Gamma:
+                    break
+                dataset_copy = get_neighborhood(dataset_copy, proximity_threshold, man_origin, man_basis)
+                lm_dim = k
+        # a cluster is found:
+        clusters.append(dataset_copy)  # Note: label of cluster := index
+        dims.append(lm_dim)
+        D = pd.concat([D, dataset_copy]).drop_duplicates(keep=False)
+    return clusters, dims
