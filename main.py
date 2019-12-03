@@ -10,7 +10,7 @@ __file_name = "data/mouse.csv"
 
 
 def load_data(file_path):
-    df = pd.read_csv(file_path, names=['a1', 'a2', 'label'], header=None)
+    df = pd.read_csv(file_path, names=['a1', 'a2', 'label'], header=None, delim_whitespace=True)
     return df
 
 

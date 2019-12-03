@@ -22,7 +22,7 @@ def get_neighborhood(df, proximity_threshold, man_origin, man_basis):
     return df_copy
 
 
-def lmclu(D: pd.Dataframe, K: int, S: int, Gamma: float) -> (list, list):
+def lmclu(D: pd.DataFrame, K: int, S: int, Gamma: float) -> (list, list):
     """
     :param D: dataset
     :param K: max LM dim
