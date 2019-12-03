@@ -1,3 +1,5 @@
-def make_histogram():
-    return
+def make_histogram(histances):
+    # TODO
+    H = 0
+    return H
 
