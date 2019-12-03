@@ -31,8 +31,6 @@ def find_separation(D, K, S):
                 x_new = x - O
                 distances.append(np.linalg.norm(x_new) - np.linalg.norm(B.T@x_new))
 
-
-
     make_hist.make_histogram()
 
     find_min_threshold.find_minimum_error_threshold()
