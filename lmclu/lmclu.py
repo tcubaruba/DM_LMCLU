@@ -34,17 +34,17 @@ def lmclu(D: pd.Dataframe, K: int, S: int, Gamma: float) -> (list, list):
     dims = []  # list of intrinsic dimensionalities
 
     while len(D):
-        dataset_copy = D
+        D_copy = D.copy()
         lm_dim = 1
         for k in range(K):
             while True:
-                goodness_threshold, proximity_threshold, man_origin, man_basis = find_separation(dataset_copy, k + 1, S)
+                goodness_threshold, proximity_threshold, man_origin, man_basis = find_separation(D_copy, k + 1, S)
                 if goodness_threshold <= Gamma:
                     break
-                dataset_copy = get_neighborhood(dataset_copy, proximity_threshold, man_origin, man_basis)
+                D_copy = get_neighborhood(D_copy.to_numpy(), proximity_threshold, man_origin, man_basis)
                 lm_dim = k
         # a cluster is found:
-        clusters.append(dataset_copy)  # Note: label of cluster := index
+        clusters.append(D_copy)  # Note: label of cluster := index
         dims.append(lm_dim)
-        D = pd.concat([D, dataset_copy]).drop_duplicates(keep=False)
+        D = pd.concat([D, D_copy]).drop_duplicates(keep=False)
     return clusters, dims
