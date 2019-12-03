@@ -23,12 +23,18 @@ def find_separation(D, K, S):
     for i in range(0, n):
         M = find_random_point(D, K+1)
         O = find_random_point(M, 1)
-        B = form_basis.form_orthonormal_basis(M, O)
+        O = np.squeeze(O)
+        print(O)
+        B, _ = form_basis.form_orthonormal_basis(M, O)
+        # B = np.array(B)
+        # print(B)
+        # print(B.shape)
         distances = []
         for row in range(D.shape[0]):
             x = D[row]
             if (x not in M):
                 x_new = x - O
+                print(x_new.shape)
                 distances.append(np.linalg.norm(x_new) - np.linalg.norm(B.T@x_new))
         H = make_hist.make_histogram(distances)
         T = find_min_threshold.find_minimum_error_threshold(H)
@@ -43,6 +49,6 @@ def find_separation(D, K, S):
 
 
 def find_random_point(dataset, n_points):
-    rows = np.random.choice(dataset.shape[0], n_points)
+    rows = np.random.choice(dataset.shape[0], n_points, replace=False)
     points_array = dataset[rows, :]
     return points_array
