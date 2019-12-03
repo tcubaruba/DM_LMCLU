@@ -25,30 +25,26 @@ def find_separation(D, K, S):
         M = D[M_indexes, :]
         O_index = np.random.choice(M_indexes, 1)
         O = D[O_index, :]
-        B = form_basis.form_orthonormal_basis(M, O_index)
-        # B = np.array(B)
-        # print(B)
-        # print(B.shape)
+        B, _ = form_basis.form_orthonormal_basis(M, O_index)
+        B = np.squeeze(B)
         distances = []
         for row in range(D.shape[0]):
             x = D[row]
             if (x not in M):
                 x_new = x - O
-                print(x_new.shape)
-                distances.append(np.linalg.norm(x_new) - np.linalg.norm(B.T@x_new))
+                distances.append(np.linalg.norm(x_new) - np.linalg.norm(x_new@B.T))
         H = make_hist.make_histogram(distances)
         T = find_min_threshold.find_minimum_error_threshold(H)
-        G = evaluate.evaluate_goodness_of_separation(T, H)
-        if(G>gamma):
-            gamma = G
-            tau = T
-            mean = O
-            beta = B
+        # G = evaluate.evaluate_goodness_of_separation(T, H)
+        # if(G>gamma):
+        #     gamma = G
+        #     tau = T
+        #     mean = O
+        #     beta = B
 
     return gamma, tau, mean, beta
 
 
 def find_random_point(dataset, n_points):
     rows = np.random.choice(dataset.shape[0], n_points, replace=False)
-    # points_array = dataset[rows, :]
     return rows

@@ -1,9 +1,6 @@
 import numpy as np
-import matplotlib.pyplot as plt
-def make_histogram(distances):
-    H = np.histogram(distances)
-    plt.hist(H)
-    plt.show()
 
+def make_histogram(distances):
+    H, _ = np.histogram(distances)
     return H
 
