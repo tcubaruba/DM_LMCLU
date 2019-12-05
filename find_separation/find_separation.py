@@ -34,7 +34,7 @@ def find_separation(D, K, S):
                 x_new = x - O
                 distances.append(np.linalg.norm(x_new) - np.linalg.norm(x_new@B.T))
         H = make_hist.make_histogram(distances)
-        T = find_min_threshold.find_minimum_error_threshold(H)
+        T = find_min_threshold.min_err_threshold(H)
         # G = evaluate.evaluate_goodness_of_separation(T, H)
         # if(G>gamma):
         #     gamma = G
