@@ -17,34 +17,34 @@ def is_in_neighborhood(df, x_index, proximity_threshold, man_origin, man_basis):
 def get_neighborhood(df, proximity_threshold, man_origin, man_basis):
     df_copy = df.copy()
     for row_index, row in df.iterrows():
-        if not is_in_neighborhood(df, proximity_threshold, man_origin, man_basis):
+        if not is_in_neighborhood(df, row_index, proximity_threshold, man_origin, man_basis):
             df_copy = df_copy.drop(row_index)
     return df_copy
 
 
-def lmclu(D: pd.DataFrame, K: int, S: int, Gamma: float) -> (list, list):
+def lmclu(data: pd.DataFrame, max_lm_dim: int, sampling_level: int, sensitivity_threshold: float) -> (list, list):
     """
-    :param D: dataset
-    :param K: max LM dim
-    :param S: sampling level
-    :param Gamma: sensitivity threshold
+    :param data: dataset (D)
+    :param max_lm_dim: max LM dim (K)
+    :param sampling_level: sampling level (S)
+    :param sensitivity_threshold: sensitivity threshold (Gamma)
     :return: clusters, dims
     """
     clusters = []  # list of labeled cluster
     dims = []  # list of intrinsic dimensionalities
 
-    while len(D):
-        D_copy = D.copy()
+    while len(data):
+        data_copy = data.copy()
         lm_dim = 1
-        for k in range(K):
+        for k in range(max_lm_dim):
             while True:
-                goodness_threshold, proximity_threshold, man_origin, man_basis = find_separation(D_copy, k + 1, S)
-                if goodness_threshold <= Gamma:
+                goodness_threshold, proximity_threshold, man_origin, man_basis = find_separation(data_copy, k + 1, sampling_level)
+                if goodness_threshold <= sensitivity_threshold:
                     break
-                D_copy = get_neighborhood(D_copy.to_numpy(), proximity_threshold, man_origin, man_basis)
-                lm_dim = k
+                data_copy = get_neighborhood(data_copy.to_numpy(), proximity_threshold, man_origin, man_basis)
+                lm_dim = k + 1
         # a cluster is found:
-        clusters.append(D_copy)  # Note: label of cluster := index
+        clusters.append(data_copy)  # Note: label of cluster := index
         dims.append(lm_dim)
-        D = pd.concat([D, D_copy]).drop_duplicates(keep=False)
+        data = pd.concat([data, data_copy]).drop_duplicates(keep=False)
     return clusters, dims
