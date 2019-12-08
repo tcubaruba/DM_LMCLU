@@ -54,7 +54,7 @@ def find_separation(D, K, S):
         M = D[M_indices, :]
         O_indices = np.random.choice(M_indices, 1)
         O = D[O_indices, :]
-        B, _ = __form_orthonormal_basis(M, O_indices)  # fixme: (thomas) something is wrong here
+        B, _ = __form_orthonormal_basis(M, O_indices)  # fixed
         B = np.squeeze(B)
         distances = []
         for row in range(D.shape[0]):

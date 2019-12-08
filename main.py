@@ -11,7 +11,9 @@ __file_name = "data/mouse.csv"
 
 def load_data(file_path):
     df = pd.read_csv(file_path, names=['a1', 'a2', 'label'], header=None, delim_whitespace=True)
-    return df
+    data = df[['a1', 'a2']]
+    labels = df['label']
+    return data, labels
 
 
 def invoke_lmclus(df, K, S, Gamma):
@@ -20,7 +22,7 @@ def invoke_lmclus(df, K, S, Gamma):
 
 
 def main():
-    df = load_data(__file_name)
+    df, labels = load_data(__file_name)
     clusters, lm_dims = invoke_lmclus(df, __K, __S, __Gamma)
 
     print("clusters: ")
