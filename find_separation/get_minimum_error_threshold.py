@@ -1,20 +1,14 @@
-"""
-Note: the source code in this file is highly inspired by the source code provided from:
+import numpy as np
+
+__infinity = 10000000000
+
+
+def min_err_threshold(histogram: np.ndarray):  # todo here could be a bug?!
+    """
+    NOTE: THIS Method is HIGHLY INSPIRED BY THE SOURCE CODE PROVIDED FROM:
     https://github.com/manuelaguadomtz/pythreshold
     author: Manuel Aguado Martínez (2017)
 
-    Reference of the implemented algorithm:
-    Kittler, J. and J. Illingworth. ‘‘On Threshold Selection Using Clustering
-    Criteria,’’ IEEE Transactions on Systems, Man, and Cybernetics 15, no. 5
-    (1985): 652–655.
-"""
-import numpy as np
-
-__infinity = 1000000
-
-
-def min_err_threshold(histogram: np.ndarray): # todo here could be a bug?!
-    """
     Runs the minimum error thresholding algorithm.
     :param histogram (numpy ndarray of floats)
     :return: The threshold that minimize the error
@@ -50,7 +44,13 @@ def min_err_threshold(histogram: np.ndarray): # todo here could be a bug?!
     return histogram[best_pos], goodness
 
 
-def evaluate_goodness(f_std, f_mean, b_std, b_mean, error): # todo here could be a bug?!
+def evaluate_goodness(f_std, f_mean, b_std, b_mean, error):  # todo here could be a bug?!
+    """
+    NOTE: THIS METHOD IS HIGHLY INSPIRED FROM THE IMPLEMENTATION IN ELKI:
+        author: ELKI Development Team (2019)
+        https://elki-project.github.io/releases/
+        package de.lmu.ifi.dbs.elki.algorithm.clustering.correlation;
+    """
     n = len(error)
 
     best_pos = -1
@@ -63,13 +63,11 @@ def evaluate_goodness(f_std, f_mean, b_std, b_mean, error): # todo here could be
         if dev_cur >= 0 >= dev_prev:
             # Local minimum found - calculate depth
             lowest_maxima = __infinity
-            # for (int j = i - 1; j > 0; j--) {
             for j in range(i, 0, -1):
                 if error[j - 1] < error[j]:
                     lowest_maxima = min(lowest_maxima, error[j])
                     break
 
-            # for (int j = i + 1; j < n - 2; j++) {
             for j in range(i + 1, n - 2):
                 if error[j + 1] < error[j]:
                     lowest_maxima = min(lowest_maxima, error[j])
