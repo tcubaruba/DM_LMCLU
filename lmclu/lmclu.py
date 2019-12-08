@@ -24,6 +24,11 @@ def __get_neighborhood(df, proximity_threshold, man_origin, man_basis):
 
 def lmclu(data: pd.DataFrame, max_lm_dim: int, sampling_level: int, sensitivity_threshold: float) -> (list, list):
     """
+    LMCLU samples random linear manifolds and finds clusters in it. Hereby the distance histogram is calculated and
+    searched for the minimum error threshold. The data is partitioned into two groups the data objects in the
+    cluster and everything else. Then the best fitting linear manifold is searched and registered as a cluster.
+    The process is started over until all objects are clustered. The last cluster contains all outliers.
+
     :param data: dataset (D)
     :param max_lm_dim: max LM dim (K)
     :param sampling_level: sampling level (S)

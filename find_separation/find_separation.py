@@ -6,6 +6,7 @@ __epsilon = 0.00001
 
 
 def __get_n_random_sample_indices(data, n):
+    """return n random row indices of the data set"""
     row_indices = np.random.choice(data.shape[0], n, replace=False)
     return row_indices
 
@@ -35,10 +36,7 @@ def find_separation(D, K, S):
     :param K: max LM dim
     :param S: sampling level
     :return:
-        gamma: goodness_threshold
-        tau: proximity_threshold
-        mean: man_origin
-        beta: man_basis
+        gamma (= goodness threshold), tau (= proximity threshold), mean (= man origin), beta (= man basis)
     """
     gamma = -__infinity
     tau = -__infinity
