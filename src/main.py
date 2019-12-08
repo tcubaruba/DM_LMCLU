@@ -23,7 +23,7 @@ def invoke_lmclus(df, K, S, Gamma):
 
 
 def get_pred_labels(clusters):
-    # todo how to get pred
+    # todo how to get predicted labels
     pred_labels = ()
     return
 
