@@ -1,7 +1,7 @@
 from src.sub import get_minimum_error_threshold as err_th
 import numpy as np
 
-__infinity = 1000000
+__infinity = 10000000
 __epsilon = 0.00001
 
 
@@ -13,7 +13,9 @@ def __get_n_random_sample_indices(data, n):
 
 def __form_orthonormal_basis(M, O_index):
     space = np.delete(M, O_index, axis=0)
-    return np.linalg.qr(space)
+    q, r = np.linalg.qr(space)
+    return q
+
 
 def __make_histogram(distances):
     H, _ = np.histogram(distances)
@@ -37,12 +39,11 @@ def find_separation(D, K, S):
     n = int(n)
 
     for i in range(0, n):
-        # todo: (thomas) I'd appreciate it, if we explain the variables a bit what is M, O, B?!
         M_indices = __get_n_random_sample_indices(D, K + 1)
         M = D[M_indices, :]
         O_indices = np.random.choice(M_indices, 1)
         O = D[O_indices, :]
-        B, _ = __form_orthonormal_basis(M, O_indices)  # fixed
+        B = __form_orthonormal_basis(M, O_indices)  # fixed
         B_squeezed = np.squeeze(B)
         distances = []
         for row in range(D.shape[0]):
@@ -53,7 +54,6 @@ def find_separation(D, K, S):
                 distances.append(np.linalg.norm(x_new) - np.linalg.norm(x_new @ B_squeezed.T))
         H = __make_histogram(distances)
         T, G = err_th.min_err_threshold(H)
-        # G = __evaluate_goodness_of_separation(T, H)
         if G > gamma:
             gamma = G
             tau = T
