@@ -12,7 +12,8 @@ def __is_in_neighborhood(df, x_index, proximity_threshold, man_origin, man_basis
     x = df.iloc[x_index].values
 
     # fixme returns always false da fuck!!!
-    is_in = __norm(x - man_origin) ** 2 - __norm(man_basis * (x - man_origin).T) ** 2 < proximity_threshold
+    proximity_value = __norm(x - man_origin) ** 2 - __norm(man_basis * (x - man_origin).T) ** 2
+    is_in = proximity_value < proximity_threshold
     return is_in
 
 

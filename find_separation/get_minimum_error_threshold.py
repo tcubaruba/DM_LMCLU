@@ -13,7 +13,7 @@ import numpy as np
 __infinity = 1000000
 
 
-def min_err_threshold(histogram: np.ndarray):
+def min_err_threshold(histogram: np.ndarray): # todo here could be a bug?!
     """
     Runs the minimum error thresholding algorithm.
     :param histogram (numpy ndarray of floats)
@@ -43,21 +43,21 @@ def min_err_threshold(histogram: np.ndarray):
     # Estimating error
     error_a = w_backg * np.log(b_std) + w_foreg * np.log(f_std)
     error_b = w_backg * np.log(w_backg) + w_foreg * np.log(w_foreg)
-    error = 1 + 2 * (error_a -  error_b)
+    error = 1 + 2 * (error_a - error_b)
 
     goodness, best_pos = evaluate_goodness(f_std, f_mean, b_std, b_mean, error)
-    return np.argmin(error), goodness
-    # return error[best_pos], goodness
+    # return np.argmin(error), goodness
+    return histogram[best_pos], goodness
 
 
-def evaluate_goodness(f_std, f_mean, b_std, b_mean, error):
+def evaluate_goodness(f_std, f_mean, b_std, b_mean, error): # todo here could be a bug?!
     n = len(error)
 
     best_pos = -1
     best_goodness = -__infinity
     dev_prev = error[1] - error[0]
 
-    for i in range(n-1):
+    for i in range(n - 1):
         dev_cur = error[i + 1] - error[i]
 
         if dev_cur >= 0 >= dev_prev:

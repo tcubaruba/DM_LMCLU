@@ -43,14 +43,14 @@ def find_separation(D, K, S):
         O_indices = np.random.choice(M_indices, 1)
         O = D[O_indices, :]
         B, _ = __form_orthonormal_basis(M, O_indices)  # fixed
-        B = np.squeeze(B)
+        B_squeezed = np.squeeze(B)
         distances = []
         for row in range(D.shape[0]):
             x = D[row]
             if x not in M:
                 x_new = x - O
-                # fixme here's raised an error sometimes: dependent on parameter:
-                distances.append(np.linalg.norm(x_new) - np.linalg.norm(x_new @ B.T))
+                # fixme: (thomas) here's raised an error sometimes: dependent on parameter:
+                distances.append(np.linalg.norm(x_new) - np.linalg.norm(x_new @ B_squeezed.T))
         H = __make_histogram(distances)
         T, G = find_min_threshold.min_err_threshold(H)
         # G = __evaluate_goodness_of_separation(T, H)
@@ -58,6 +58,6 @@ def find_separation(D, K, S):
             gamma = G
             tau = T
             mean = O
-            beta = B
+            beta = B_squeezed
 
     return gamma, tau, mean, beta

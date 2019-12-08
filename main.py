@@ -4,8 +4,8 @@ from sklearn import metrics
 
 
 __K = 2  # max LM dim
-__S = 20  # sampling level
-__Gamma = 10  # sensitivity threshold
+__S = 5  # sampling level
+__Gamma = 0.1  # sensitivity threshold
 
 # __file_name = "data/vary-density.csv"
 __file_name = "data/mouse.csv"
