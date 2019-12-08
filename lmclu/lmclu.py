@@ -12,7 +12,7 @@ def __is_in_neighborhood(df, x_index, proximity_threshold, man_origin, man_basis
     x = df.iloc[x_index].values
 
     # fixme returns always false da fuck!!!
-    is_in = __norm(x - man_origin) ** 2 - __norm(man_basis @ (x - man_origin).T) ** 2 < proximity_threshold
+    is_in = __norm(x - man_origin) ** 2 - __norm(man_basis * (x - man_origin).T) ** 2 < proximity_threshold
     return is_in
 
 
@@ -51,6 +51,8 @@ def lmclu(data: pd.DataFrame, max_lm_dim: int, sampling_level: int, sensitivity_
                     break
                 data_copy = __get_neighborhood(data_copy, proximity_threshold, man_origin, man_basis)
                 lm_dim = k + 1
+            if data_copy.shape[0] == 0:
+                break
         # a cluster is found:
         clusters.append(data_copy)  # Note: label of cluster := index
         dims.append(lm_dim)

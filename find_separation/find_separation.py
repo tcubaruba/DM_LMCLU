@@ -49,6 +49,7 @@ def find_separation(D, K, S):
             x = D[row]
             if x not in M:
                 x_new = x - O
+                # fixme here's raised an error sometimes: dependent on parameter:
                 distances.append(np.linalg.norm(x_new) - np.linalg.norm(x_new @ B.T))
         H = __make_histogram(distances)
         T, G = find_min_threshold.min_err_threshold(H)
