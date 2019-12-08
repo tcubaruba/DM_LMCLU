@@ -2,7 +2,7 @@ import pandas as pd
 from lmclu import lmclu
 
 __K = 2
-__S = 1
+__S = 2
 __Gamma = 0
 
 # __file_name = "data/vary-density.csv"
