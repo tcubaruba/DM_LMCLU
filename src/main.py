@@ -1,7 +1,6 @@
 import pandas as pd
-from lmclu import lmclu
 from sklearn import metrics
-
+from src import lmclu
 
 __K = 2  # max LM dim
 __S = 5  # sampling level
@@ -19,7 +18,7 @@ def load_data(file_path):
 
 
 def invoke_lmclus(df, K, S, Gamma):
-    clusters, lm_dims = lmclu.lmclu(df, K, S, Gamma)
+    clusters, lm_dims = lmclu.run(df, K, S, Gamma)
     return clusters, lm_dims
 
 
@@ -27,6 +26,7 @@ def get_pred_labels(clusters):
     # todo how to get pred
     pred_labels = ()
     return
+
 
 def main():
     df, true_labels = load_data(__file_name)
@@ -41,6 +41,7 @@ def main():
     pred_labels = get_pred_labels(clusters)
     print("\nsklearn metrics evaluation:")
     print(f"{metrics.fowlkes_mallows_score(true_labels, pred_labels)}")
+
 
 if __name__ == '__main__':
     main()

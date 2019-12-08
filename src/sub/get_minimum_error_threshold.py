@@ -39,12 +39,12 @@ def min_err_threshold(histogram: np.ndarray):  # todo here could be a bug?!
     error_b = w_backg * np.log(w_backg) + w_foreg * np.log(w_foreg)
     error = 1 + 2 * (error_a - error_b)
 
-    goodness, best_pos = evaluate_goodness(f_std, f_mean, b_std, b_mean, error)
+    goodness, best_pos = __evaluate_goodness(f_std, f_mean, b_std, b_mean, error)
     # return np.argmin(error), goodness
     return histogram[best_pos], goodness
 
 
-def evaluate_goodness(f_std, f_mean, b_std, b_mean, error):  # todo here could be a bug?!
+def __evaluate_goodness(f_std, f_mean, b_std, b_mean, error):  # todo here could be a bug?!
     """
     NOTE: THIS METHOD IS HIGHLY INSPIRED FROM THE IMPLEMENTATION IN ELKI:
         author: ELKI Development Team (2019)

@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 
-from find_separation.find_separation import find_separation
+from src.sub import find_separation
 
 
 def __norm(val):
@@ -25,7 +25,7 @@ def __get_neighborhood(df, proximity_threshold, man_origin, man_basis):
     return df_copy
 
 
-def lmclu(data: pd.DataFrame, max_lm_dim: int, sampling_level: int, sensitivity_threshold: float) -> (list, list):
+def run(data: pd.DataFrame, max_lm_dim: int, sampling_level: int, sensitivity_threshold: float) -> (list, list):
     """
     LMCLU samples random linear manifolds and finds clusters in it. Hereby the distance histogram is calculated and
     searched for the minimum error threshold. The data is partitioned into two groups the data objects in the
@@ -46,8 +46,8 @@ def lmclu(data: pd.DataFrame, max_lm_dim: int, sampling_level: int, sensitivity_
         lm_dim = 1
         for k in range(max_lm_dim):
             while True:
-                goodness_threshold, proximity_threshold, man_origin, man_basis = find_separation(data_copy.to_numpy(),
-                                                                                                 k + 1, sampling_level)
+                goodness_threshold, proximity_threshold, man_origin, man_basis = find_separation.find_separation(
+                    data_copy.to_numpy(), k + 1, sampling_level)
                 if goodness_threshold <= sensitivity_threshold:
                     break
                 data_copy = __get_neighborhood(data_copy, proximity_threshold, man_origin, man_basis)

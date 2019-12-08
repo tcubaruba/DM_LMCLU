@@ -1,4 +1,4 @@
-import find_separation.get_minimum_error_threshold as find_min_threshold
+from src.sub import get_minimum_error_threshold as err_th
 import numpy as np
 
 __infinity = 1000000
@@ -52,7 +52,7 @@ def find_separation(D, K, S):
                 # fixme: (thomas) here's raised an error sometimes: dependent on parameter:
                 distances.append(np.linalg.norm(x_new) - np.linalg.norm(x_new @ B_squeezed.T))
         H = __make_histogram(distances)
-        T, G = find_min_threshold.min_err_threshold(H)
+        T, G = err_th.min_err_threshold(H)
         # G = __evaluate_goodness_of_separation(T, H)
         if G > gamma:
             gamma = G
