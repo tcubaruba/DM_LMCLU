@@ -1,6 +1,5 @@
 import find_separation.evaluate_goodness_of_separation as evaluate
-import find_separation.find_minimum_error_threshold as find_min_threshold
-import find_separation.form_orthonormal_basis as form_basis
+import find_separation.get_minimum_error_threshold as find_min_threshold
 import find_separation.make_histogram as make_hist
 
 import numpy as np
@@ -34,7 +33,7 @@ def find_separation(D, K, S):
         M = D[M_indexes, :]
         O_index = np.random.choice(M_indexes, 1)
         O = D[O_index, :]
-        B, _ = form_basis.form_orthonormal_basis(M, O_index)  # fixme: (thomas) something is wrong here
+        B, _ = form_orthonormal_basis(M, O_index)  # fixme: (thomas) something is wrong here
         B = np.squeeze(B)
         distances = []
         for row in range(D.shape[0]):
@@ -57,3 +56,23 @@ def find_separation(D, K, S):
 def find_random_point(dataset, n_points):
     rows = np.random.choice(dataset.shape[0], n_points, replace=False)
     return rows
+
+
+def form_orthonormal_basis(M, O_index):
+    space = np.delete(M, O_index, axis=0)
+    return np.linalg.qr(space)
+
+
+def evaluate_goodness_of_separation(T, H):
+    # todo: (thomas) not implemented yet!!
+    # step 1: calculate discriminability [see paper (6)]
+    # step 2: depth = J(tau') - J(tau)
+    # step 3: G = discriminablility x depth [see paper (7)]
+
+    G = 0
+    return G
+
+
+def make_histogram(distances):
+    H, _ = np.histogram(distances)
+    return H
