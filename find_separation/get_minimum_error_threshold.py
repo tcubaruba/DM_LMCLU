@@ -57,7 +57,7 @@ def evaluate_goodness(f_std, f_mean, b_std, b_mean, error):
     best_goodness = -__infinity
     dev_prev = error[1] - error[0]
 
-    for i in range(n):
+    for i in range(n-1):
         dev_cur = error[i + 1] - error[i]
 
         if dev_cur >= 0 >= dev_prev:

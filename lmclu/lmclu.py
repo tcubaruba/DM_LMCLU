@@ -47,7 +47,7 @@ def lmclu(data: pd.DataFrame, max_lm_dim: int, sampling_level: int, sensitivity_
                                                                                                  k + 1, sampling_level)
                 if goodness_threshold <= sensitivity_threshold:
                     break
-                data_copy = __get_neighborhood(data_copy.to_numpy(), proximity_threshold, man_origin, man_basis)
+                data_copy = __get_neighborhood(data_copy, proximity_threshold, man_origin, man_basis)
                 lm_dim = k + 1
         # a cluster is found:
         clusters.append(data_copy)  # Note: label of cluster := index
