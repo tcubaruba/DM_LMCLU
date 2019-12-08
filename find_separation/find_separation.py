@@ -12,18 +12,8 @@ def __get_n_random_sample_indices(data, n):
 
 
 def __form_orthonormal_basis(M, O_index):
-    space = np.delete(M, O_index, axis=0)  # fixme: raises an exception
+    space = np.delete(M, O_index, axis=0)
     return np.linalg.qr(space)
-
-
-def __evaluate_goodness_of_separation(T, H):
-    G = 0
-    # todo: (thomas) not implemented yet!!
-    # step 1: calculate discriminability [see paper (6)]
-    # step 2: depth = J(tau') - J(tau)
-    # step 3: G = discriminablility x depth [see paper (7)]
-    return G
-
 
 def __make_histogram(distances):
     H, _ = np.histogram(distances)
