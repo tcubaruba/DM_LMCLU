@@ -38,7 +38,8 @@ def lmclu(data: pd.DataFrame, max_lm_dim: int, sampling_level: int, sensitivity_
         lm_dim = 1
         for k in range(max_lm_dim):
             while True:
-                goodness_threshold, proximity_threshold, man_origin, man_basis = find_separation(data_copy, k + 1, sampling_level)
+                goodness_threshold, proximity_threshold, man_origin, man_basis = find_separation(data_copy.to_numpy(),
+                                                                                                 k + 1, sampling_level)
                 if goodness_threshold <= sensitivity_threshold:
                     break
                 data_copy = get_neighborhood(data_copy.to_numpy(), proximity_threshold, man_origin, man_basis)
