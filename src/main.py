@@ -2,21 +2,19 @@ import pandas as pd
 from sklearn import metrics
 from src import lmclu
 
-__K = 10  # max LM dim
-__S = 20  # sampling level
-__Gamma = 0.5  # sensitivity threshold
+__K = 2  # max LM dim
+__S = 10  # sampling level
+__Gamma = 1  # sensitivity threshold
 
 # __file_name = "data/vary-density.csv"
-# __file_name = "data/mouse.csv"
-__file_name = "/Users/natalia.tretiakova/Documents/Informatik/WS19_20/DM/Group Assignments/LMCLU/lmclu/data/mouse.csv"
+__file_name = "data/mouse.csv"
 
 
 def load_data(file_path):
     df = pd.read_csv(file_path, names=['a1', 'a2', 'label'], header=None, delim_whitespace=True, encoding='utf-8')
-    data = df[['a1', 'a2']]
-    labels = df['label']
-    print(df)
-    return data, labels
+    # data = df[['a1', 'a2']]
+    # labels =
+    return df
 
 
 def invoke_lmclus(df, K, S, Gamma):
@@ -31,7 +29,7 @@ def get_pred_labels(clusters):
 
 
 def main():
-    df, true_labels = load_data(__file_name)
+    df = load_data(__file_name)
     clusters, lm_dims = invoke_lmclus(df, __K, __S, __Gamma)
 
     print("clusters: ")
@@ -42,7 +40,7 @@ def main():
 
     pred_labels = get_pred_labels(clusters)
     print("\nsklearn metrics evaluation:")
-    print(f"{metrics.fowlkes_mallows_score(true_labels, pred_labels)}")
+    print(f"{metrics.fowlkes_mallows_score( df['label'].to_numpy(), pred_labels)}")
 
 
 if __name__ == '__main__':

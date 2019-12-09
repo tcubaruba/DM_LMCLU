@@ -44,11 +44,10 @@ def run(data: pd.DataFrame, max_lm_dim: int, sampling_level: int, sensitivity_th
     while len(data):
         data_copy = data.copy()
         lm_dim = 1
-        for k in range(0, max_lm_dim):
-            print("K: ", k)
+        for k in range(max_lm_dim):
             while True:
                 goodness_threshold, proximity_threshold, man_origin, man_basis = find_separation.find_separation(
-                    data_copy.to_numpy(), k + 1, sampling_level)
+                    data_copy[''].to_numpy(), k + 1, sampling_level)
                 if goodness_threshold <= sensitivity_threshold:
                     break
                 data_copy = __get_neighborhood(data_copy, proximity_threshold, man_origin, man_basis)
