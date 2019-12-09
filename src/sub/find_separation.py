@@ -12,10 +12,8 @@ def __get_n_random_sample_indices(data, n):
     return row_indices
 
 
-def __form_orthonormal_basis(M, O_index):
-    space = np.delete(M, O_index, axis=0)
-    # q, r = np.linalg.qr(space)
-    q = scipy.linalg.orth(space)
+def __form_orthonormal_basis(M, O):
+    q = scipy.linalg.orth((M-O).T)
     return q
 
 
@@ -37,21 +35,24 @@ def find_separation(D, K, S):
     mean = 0
     beta = 0
 
-    n = np.min([np.log(__epsilon) / np.log(1 - (1 / S) ** K), D.shape[0]])
+    n = np.min([np.log(__epsilon) / np.log(1 - (1.0 / S) ** K), D.shape[0]])
     n = int(n)
 
     for i in range(0, n):
         M_indices = __get_n_random_sample_indices(D, K + 1)
-        M = D[M_indices, :]
+        M = D[M_indices]
         O_indices = np.random.choice(len(M_indices), 1)
-        O = D[O_indices, :]
+        O = M[O_indices]
         O = np.squeeze(O)
-        B = __form_orthonormal_basis(M, O_indices)  # fixed
+        B = __form_orthonormal_basis(M, O)  # fixed
+        B = np.squeeze(B)
         distances = []
+        # print(B)
         for row in range(1, D.shape[0]):
             if(row not in M_indices):
                 x = D[row]
-                x_new = x - O
+                x_new = x-O
+                # print("X old: ", x)
                 # print("X new: ", x_new)
                 # print("X_new @ B: ", x_new @ B.T)
                 # print("Norm x: ", np.linalg.norm(x_new))

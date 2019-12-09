@@ -2,13 +2,13 @@ import pandas as pd
 from sklearn import metrics
 from src import lmclu
 
-__K = 2  # max LM dim
-__S = 10  # sampling level
+__K = 10  # max LM dim
+__S = 20  # sampling level
 __Gamma = 0.5  # sensitivity threshold
 
 # __file_name = "data/vary-density.csv"
-__file_name = "data/mouse.csv"
-# __file_name = "/Users/natalia.tretiakova/Documents/Informatik/WS19_20/DM/Group Assignments/LMCLU/lmclu/data/vary-density.csv"
+# __file_name = "data/mouse.csv"
+__file_name = "/Users/natalia.tretiakova/Documents/Informatik/WS19_20/DM/Group Assignments/LMCLU/lmclu/data/mouse.csv"
 
 
 def load_data(file_path):
