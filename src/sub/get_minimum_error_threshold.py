@@ -44,6 +44,9 @@ def min_err_threshold(histogram: np.ndarray):  # todo (thomas) here could be a b
     error_b = w_backg * np.log(w_backg) + w_foreg * np.log(w_foreg)
     error = 1 + 2 * (error_a - error_b)
 
+    # print("Error: ", error)
+    # print("Np. argmin: ", np.argmin(error))
+
     goodness, best_pos = __evaluate_goodness(f_std, f_mean, b_std, b_mean, error)
     return histogram[best_pos], goodness
 
@@ -133,6 +136,9 @@ def __evaluate_goodness(f_std, f_mean, b_std, b_mean, error):  # todo (thomas): 
             mean_diff = f_mean[i] - b_mean[i]
 
             discriminability = mean_diff ** 2 / (f_std[i] ** 2 + b_std[i] ** 2)
+            #
+            # print("Dicriminability: ", discriminability)
+            # print("Depth: ", local_depth)
 
             goodness = local_depth * discriminability
             if goodness > best_goodness:

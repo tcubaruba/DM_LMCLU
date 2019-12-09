@@ -1,5 +1,6 @@
 from src.sub import get_minimum_error_threshold as err_th
 import numpy as np
+import scipy
 
 __infinity = 10000000
 __epsilon = 0.00001
@@ -13,7 +14,8 @@ def __get_n_random_sample_indices(data, n):
 
 def __form_orthonormal_basis(M, O_index):
     space = np.delete(M, O_index, axis=0)
-    q, r = np.linalg.qr(space)
+    # q, r = np.linalg.qr(space)
+    q = scipy.linalg.orth(space)
     return q
 
 
@@ -41,23 +43,30 @@ def find_separation(D, K, S):
     for i in range(0, n):
         M_indices = __get_n_random_sample_indices(D, K + 1)
         M = D[M_indices, :]
-        O_indices = np.random.choice(M_indices, 1)
+        O_indices = np.random.choice(len(M_indices), 1)
         O = D[O_indices, :]
+        O = np.squeeze(O)
         B = __form_orthonormal_basis(M, O_indices)  # fixed
-        B_squeezed = np.squeeze(B)
         distances = []
-        for row in range(D.shape[0]):
-            x = D[row]
-            if x not in M:
+        for row in range(1, D.shape[0]):
+            if(row not in M_indices):
+                x = D[row]
                 x_new = x - O
+                # print("X new: ", x_new)
+                # print("X_new @ B: ", x_new @ B.T)
+                # print("Norm x: ", np.linalg.norm(x_new))
+                # print("Norm x@ B", np.linalg.norm(B@x_new))
                 # fixme: (thomas) here's raised an error sometimes: dependent on parameter:
-                distances.append(np.linalg.norm(x_new) - np.linalg.norm(x_new @ B_squeezed.T))
+                distances.append(np.linalg.norm(x_new) - np.linalg.norm(x_new @ B.T))
+        # print(distances)
         H = __make_histogram(distances)
+        # print("Histogram: ", H)
         T, G = err_th.min_err_threshold(H)
         if G > gamma:
+            # print("gamma: ", gamma, " G: ", G, " T: ", T)
             gamma = G
             tau = T
             mean = O
-            beta = B_squeezed
+            beta = B
 
     return gamma, tau, mean, beta

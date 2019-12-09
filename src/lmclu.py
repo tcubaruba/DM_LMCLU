@@ -44,7 +44,8 @@ def run(data: pd.DataFrame, max_lm_dim: int, sampling_level: int, sensitivity_th
     while len(data):
         data_copy = data.copy()
         lm_dim = 1
-        for k in range(max_lm_dim):
+        for k in range(1, max_lm_dim):
+            print("K: ", k)
             while True:
                 goodness_threshold, proximity_threshold, man_origin, man_basis = find_separation.find_separation(
                     data_copy.to_numpy(), k + 1, sampling_level)

@@ -3,17 +3,19 @@ from sklearn import metrics
 from src import lmclu
 
 __K = 2  # max LM dim
-__S = 5  # sampling level
-__Gamma = 0.1  # sensitivity threshold
+__S = 10  # sampling level
+__Gamma = 0.5  # sensitivity threshold
 
 # __file_name = "data/vary-density.csv"
 __file_name = "data/mouse.csv"
+# __file_name = "/Users/natalia.tretiakova/Documents/Informatik/WS19_20/DM/Group Assignments/LMCLU/lmclu/data/vary-density.csv"
 
 
 def load_data(file_path):
-    df = pd.read_csv(file_path, names=['a1', 'a2', 'label'], header=None, delim_whitespace=True)
+    df = pd.read_csv(file_path, names=['a1', 'a2', 'label'], header=None, delim_whitespace=True, encoding='utf-8')
     data = df[['a1', 'a2']]
     labels = df['label']
+    print(df)
     return data, labels
 
 
