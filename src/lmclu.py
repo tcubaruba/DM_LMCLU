@@ -80,6 +80,7 @@ def run(data: pd.DataFrame, max_lm_dim: int, sampling_level: int, sensitivity_th
                 else:
                     data_copy = test_cluster
 
+                # without cluster size check:
                 # data_copy = __get_neighborhood(data_copy, proximity_threshold, man_origin, man_basis)
                 n_after = data_copy.shape[0]
 
@@ -102,7 +103,4 @@ def run(data: pd.DataFrame, max_lm_dim: int, sampling_level: int, sensitivity_th
             clusters.append(data.to_numpy())
             dims.append(lm_dim)
             break
-        # print("Clusters shape: ", np.array(clusters).shape)
-        # print("Data shape: ", data.shape)
-        print("Data copy shape: ", data_copy.shape)
     return clusters, dims

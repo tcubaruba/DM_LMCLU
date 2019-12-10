@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns # to make plots
 
 __K = 2  # max LM dim
-__S = 5 # sampling level
+__S = 3 # sampling level
 # <<<<<<< Updated upstream
 __Gamma = 0.8  # sensitivity threshold
 # =======
@@ -38,7 +38,6 @@ def get_pred_labels(data, clusters):
         for value in cluster:
             index = int(np.squeeze(np.where(np.all(nd_data == value, axis=1))))
             pred_labels[index] = cluster_i
-    print("Len of indexes: ", len(list(pred_labels.values())))
     return list(pred_labels.values())
 
 
@@ -75,7 +74,6 @@ def main():
     print(lm_dims)
 
     pred_labels = get_pred_labels(data, clusters)
-    print(pred_labels)
     plot_data(data, pred_labels)
     print("\nsklearn metrics evaluation:")
     print(f"{metrics.fowlkes_mallows_score(true_labels, pred_labels)}")
