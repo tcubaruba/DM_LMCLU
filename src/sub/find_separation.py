@@ -62,7 +62,7 @@ def find_separation(D, K, S):
         H, class_borders = __make_histogram(distances)
         T, G = err_th.min_err_threshold(H, class_borders)
         if G > gamma:
-            # print("gamma: ", gamma, " G: ", G, " T: ", T)
+            print("gamma: ", gamma, " G: ", G, " T: ", T)
             gamma = G
             tau = T
             mean = O
