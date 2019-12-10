@@ -6,12 +6,8 @@ import matplotlib.pyplot as plt
 import seaborn as sns # to make plots
 
 __K = 2  # max LM dim
-__S = 3 # sampling level
-# <<<<<<< Updated upstream
+__S = 5  # sampling level
 __Gamma = 0.8  # sensitivity threshold
-# =======
-# __Gamma = 0.5  # sensitivity threshold
-# >>>>>>> Stashed changes
 
 __file_name = "data/vary-density.csv"
 # __file_name = "data/mouse.csv"

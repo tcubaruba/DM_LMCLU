@@ -14,10 +14,8 @@ def __get_n_random_sample_indices(data, n):
 
 
 def __form_orthonormal_basis(M, O_index):
-    # q = scipy.linalg.orth((M - O).T)  # think this is wrong
     space = np.delete(M, O_index, axis=0)
     q = scipy.linalg.orth(space.T)
-    # q1, r1 = np.linalg.qr(space.T)
     return q
 
 
