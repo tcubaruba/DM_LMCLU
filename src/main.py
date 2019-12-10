@@ -6,18 +6,11 @@ import matplotlib.pyplot as plt
 import seaborn as sns # to make plots
 
 __K = 2  # max LM dim
-__S = 3  # sampling level
-# <<<<<<< Updated upstream
-__Gamma = 0.5  # sensitivity threshold
-# =======
-# __Gamma = 0.5  # sensitivity threshold
-# >>>>>>> Stashed changes
+__S = 10  # sampling level
+__Gamma = 0.8  # sensitivity threshold
 
 # __file_name = "data/vary-density.csv"
-# __file_name = "data/mouse.csv"
-# __file_name = "/Users/natalia.tretiakova/Documents/Informatik/WS19_20/DM/Group Assignments/LMCLU/lmclu/data/mouse.csv"
-__file_name = "/Users/natalia.tretiakova/Documents/Informatik/WS19_20/DM/Group Assignments/LMCLU/lmclu/data/vary-density.csv"
-
+__file_name = "data/mouse.csv"
 
 
 def load_data(file_path):
