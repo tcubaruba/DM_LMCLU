@@ -3,11 +3,6 @@ import numpy as np
 __infinity = 10000000
 
 
-# todo (thomas): if "min_err_threshold(histogram)" function from manuel aquado martinez is not fitting for lmclus (since it is taken from a different context)
-# todo (thomas): implement "min_err_threshold_alternative(histogram)" - here is the java code from elki implementation (this should be super fine)
-# todo (thomas): but both implementations seem to do the same?!
-# todo (thomas): checkout: java_example_implementation/LMCLUS.java [line 385-462]
-
 def min_err_threshold(histogram: np.ndarray, class_borders):  # todo (thomas) here could be a bug?!
     """
     NOTE: THIS Method is HIGHLY INSPIRED BY THE SOURCE CODE PROVIDED FROM:

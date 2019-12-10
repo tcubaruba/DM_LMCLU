@@ -6,6 +6,7 @@ __infinity = 10000000
 __epsilon = 0.00001
 __bins = 10
 
+
 def __get_n_random_sample_indices(data, n):
     """return n random row indices of the data set"""
     row_indices = np.random.choice(data.shape[0], n, replace=False)
@@ -13,7 +14,10 @@ def __get_n_random_sample_indices(data, n):
 
 
 def __form_orthonormal_basis(M, O):
-    q = scipy.linalg.orth((M-O).T)
+    q = scipy.linalg.orth((M - O).T)  # think this is wrong
+    # space = np.delete(M, O, axis=0)
+    # q = scipy.linalg.orth(space.T)
+    # q1, r1 = np.linalg.qr(space.T)
     return q
 
 
@@ -39,7 +43,6 @@ def find_separation(D, K, S):
     n = int(n)
 
     for i in range(0, n):
-
         M_indices = __get_n_random_sample_indices(D, K + 1)
         M = D[M_indices]
         O_indices = np.random.choice(len(M_indices), 1)
@@ -47,14 +50,13 @@ def find_separation(D, K, S):
         O = np.squeeze(O)
         B = __form_orthonormal_basis(M, O)  # fixed
         B = np.squeeze(B)
-        # todo orthonormalbasis
 
         distances = []
         # print(B)
         for row in range(1, D.shape[0]):
-            if(row not in M_indices):
+            if (row not in M_indices):
                 x = D[row]
-                x_new = x-O
+                x_new = x - O
                 # fixme: (thomas) here's raised an error sometimes: dependent on parameter:
                 distances.append(np.linalg.norm(x_new) - np.linalg.norm(x_new @ B.T))
         H, class_borders = __make_histogram(distances)
