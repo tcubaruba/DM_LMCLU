@@ -7,10 +7,7 @@ Documentation 'LMCLUS' Algorithm
 _Documentation of the implementation of the LMCLUS algorithm in python by Fenz, Fuchssteiner, Tretiakova, Zenz
 
 GitHub Source Code: https://github.com/tcubaruba/DM_LMCLU
-<div style="page-break-after: always;"></div>
-# Table of Contents
-[TOC]
-<div style="page-break-after: always;"></div>
+
 # Structure
 
 ```
@@ -53,7 +50,7 @@ GitHub Source Code: https://github.com/tcubaruba/DM_LMCLU
 │   └── ...
 └── ...
 ```
-<div style="page-break-after: always;"></div>
+
 # Pseudo-Code
 
 ## Main Algorithm
