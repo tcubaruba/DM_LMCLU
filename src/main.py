@@ -4,8 +4,8 @@ from src import lmclu
 import numpy as np
 
 __K = 2  # max LM dim
-__S = 5  # sampling level
-__Gamma = 1  # sensitivity threshold
+__S = 10  # sampling level
+__Gamma = 0.8  # sensitivity threshold
 
 # __file_name = "data/vary-density.csv"
 __file_name = "data/mouse.csv"
