@@ -3,6 +3,8 @@ import pandas as pd
 
 from src.sub import find_separation
 
+__min_cluster_size = 30
+
 
 def __norm(val):
     return np.linalg.norm(val)
@@ -60,7 +62,7 @@ def run(data: pd.DataFrame, max_lm_dim: int, sampling_level: int, sensitivity_th
         for k in range(max_lm_dim):
             while data_copy.shape[0]>0:
                 # if len(data_copy) <= max_lm_dim:  # additional exit criteria
-                if data_copy.shape[0] <= sampling_level:
+                if data_copy.shape[0] <= __min_cluster_size: # if cluster too small
                     break
 
                 goodness_threshold, proximity_threshold, man_origin, man_basis = find_separation.find_separation(
@@ -70,8 +72,18 @@ def run(data: pd.DataFrame, max_lm_dim: int, sampling_level: int, sensitivity_th
                     break
 
                 n_before = data_copy.shape[0]
-                data_copy = __get_neighborhood(data_copy, proximity_threshold, man_origin, man_basis)
+
+                # to avoid too small clusters:
+                test_cluster = __get_neighborhood(data_copy, proximity_threshold, man_origin, man_basis)
+                if test_cluster.shape[0] <= __min_cluster_size: # if cluster too small
+                    break
+                else:
+                    data_copy = test_cluster
+
+                # data_copy = __get_neighborhood(data_copy, proximity_threshold, man_origin, man_basis)
                 n_after = data_copy.shape[0]
+
+
 
                 if n_before <= n_after:
                     # additional exit because sometimes the goodness value is not decreasing
@@ -85,13 +97,12 @@ def run(data: pd.DataFrame, max_lm_dim: int, sampling_level: int, sensitivity_th
             clusters.append(data_copy.to_numpy())  # Note: label of cluster := index
             dims.append(lm_dim)
             data = __remove_clustered_data_rows(data, data_copy)
-        elif data.shape[0] < sampling_level:
+        elif data.shape[0] < __min_cluster_size:
             # rest is outlier
             clusters.append(data.to_numpy())
-            print("came here")
             dims.append(lm_dim)
             break
-        print("Clusters shape: ", np.array(clusters).shape)
-        print("Data shape: ", data.shape)
+        # print("Clusters shape: ", np.array(clusters).shape)
+        # print("Data shape: ", data.shape)
         print("Data copy shape: ", data_copy.shape)
     return clusters, dims

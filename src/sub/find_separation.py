@@ -3,7 +3,7 @@ import numpy as np
 import scipy
 
 __infinity = 10000000
-__epsilon = 0.3
+__epsilon = 0.8
 __bins = 10
 
 
