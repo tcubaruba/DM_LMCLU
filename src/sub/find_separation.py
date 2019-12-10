@@ -3,7 +3,7 @@ import numpy as np
 import scipy
 
 __infinity = 10000000
-__epsilon = 0.00001
+__epsilon = 0.3
 __bins = 10
 
 
@@ -56,7 +56,7 @@ def find_separation(D, K, S):
                 x = D[row]
                 x_new = x - O
                 # fixme: (thomas) here's raised an error sometimes: dependent on parameter:
-                distances.append(np.linalg.norm(x_new) - np.linalg.norm(x_new @ B.T))
+                distances.append(np.linalg.norm(x_new)**2 - np.linalg.norm(x_new @ B.T)**2)
         H, class_borders = __make_histogram(distances)
         T, G = err_th.min_err_threshold(H, class_borders)
         if G > gamma:

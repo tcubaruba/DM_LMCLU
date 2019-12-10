@@ -10,7 +10,7 @@ def __norm(val):
 
 def __is_in_neighborhood(df, x_index, proximity_threshold, man_origin, man_basis):
     x = df.iloc[x_index].values
-    proximity_value = __norm(x - man_origin) ** 2 - __norm(man_basis @ (x - man_origin).T) ** 2
+    proximity_value = __norm(x - man_origin) ** 2 - __norm((x - man_origin)@man_basis.T) ** 2
     is_in = proximity_value < proximity_threshold
     return is_in
 
@@ -58,8 +58,9 @@ def run(data: pd.DataFrame, max_lm_dim: int, sampling_level: int, sensitivity_th
         data_copy = data.copy()
 
         for k in range(max_lm_dim):
-            while True:
-                if len(data_copy) <= max_lm_dim:  # additional exit criteria
+            while data_copy.shape[0]>0:
+                # if len(data_copy) <= max_lm_dim:  # additional exit criteria
+                if data_copy.shape[0] <= sampling_level:
                     break
 
                 goodness_threshold, proximity_threshold, man_origin, man_basis = find_separation.find_separation(
@@ -84,10 +85,13 @@ def run(data: pd.DataFrame, max_lm_dim: int, sampling_level: int, sensitivity_th
             clusters.append(data_copy.to_numpy())  # Note: label of cluster := index
             dims.append(lm_dim)
             data = __remove_clustered_data_rows(data, data_copy)
-        else:
+        elif data.shape[0] < sampling_level:
             # rest is outlier
             clusters.append(data.to_numpy())
+            print("came here")
             dims.append(lm_dim)
             break
-
+        print("Clusters shape: ", np.array(clusters).shape)
+        print("Data shape: ", data.shape)
+        print("Data copy shape: ", data_copy.shape)
     return clusters, dims
