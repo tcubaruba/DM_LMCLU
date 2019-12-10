@@ -13,10 +13,10 @@ def __get_n_random_sample_indices(data, n):
     return row_indices
 
 
-def __form_orthonormal_basis(M, O):
-    q = scipy.linalg.orth((M - O).T)  # think this is wrong
-    # space = np.delete(M, O, axis=0)
-    # q = scipy.linalg.orth(space.T)
+def __form_orthonormal_basis(M, O_index):
+    # q = scipy.linalg.orth((M - O).T)  # think this is wrong
+    space = np.delete(M, O_index, axis=0)
+    q = scipy.linalg.orth(space.T)
     # q1, r1 = np.linalg.qr(space.T)
     return q
 
@@ -48,11 +48,9 @@ def find_separation(D, K, S):
         O_indices = np.random.choice(len(M_indices), 1)
         O = M[O_indices]
         O = np.squeeze(O)
-        B = __form_orthonormal_basis(M, O)  # fixed
+        B = __form_orthonormal_basis(M, O_indices)
         B = np.squeeze(B)
-
         distances = []
-        # print(B)
         for row in range(1, D.shape[0]):
             if (row not in M_indices):
                 x = D[row]
@@ -62,7 +60,7 @@ def find_separation(D, K, S):
         H, class_borders = __make_histogram(distances)
         T, G = err_th.min_err_threshold(H, class_borders)
         if G > gamma:
-            print("gamma: ", gamma, " G: ", G, " T: ", T)
+            # print("gamma: ", gamma, " G: ", G, " T: ", T)
             gamma = G
             tau = T
             mean = O
